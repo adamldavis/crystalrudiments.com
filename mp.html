@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Magic Pyramid | Crystal Rudiments</title>
+    <link rel="shortcut icon" href="/images/small-favicon.png" type="image/png">
+    <link rel="icon" href="/images/small-favicon.png" type="image/png">
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap-theme.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Aladin" rel="stylesheet">
+    <script type="text/javascript" src="./js/jquery-1.11.0.js"></script>
+    <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+    <style type="text/css">
+    .center { text-align: center; }
+    .footer { padding: 2em; background: #eee; border-radius: 1em; height: 20em; opacity: 0.8 }
+    body {background: #4c2c04; background: url('images/mp-background.gif') 100%; }
+    h1 { font-family: 'Aladin', cursive; color: #fcf8e3; }
+    .mp { color: #d6dcb7;  font-size: 23px; font-family: 'Aladin', cursive; }
+    input[type=button] { color: black; margin: 2em; }
+    img.card { box-shadow: 0 0 10px white; border-radius: 1em; }
+    img.banner { width: 100% }
+    .mp a { color: #ffe999 }
+    </style>
+
+</head>
+<body>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">CR</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class=""><a href="/">Home</a></li>
+                    <li class=""><a href="/about.html">About</a></li>
+                    <li class=""><a href="/index.html#games">Games</a></li>
+                    <li class=""><a href="/blog.html">Our Blog</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    <p class="center">
+        <h1 class="center">Magic Pyramid</h1>
+    </p>
+
+    <div class="container mp">
+        
+        <div class="row">
+        </div>
+        <div class="row">
+
+            <div class="col-md-4">
+                <h2>About</h2>
+
+                <p>Two games in one with multiple ways to customize!
+                    Play cooperative or competitive mode in easy, moderate, or hard varieties.</p>
+
+                <p>Play as one of four characters: the Camel, the Black Cat, the Ghost Queen, or Ra.</p>
+
+                <p>Encounter traps set up by the ancient egyptians on your way to the top
+                of the pyramid. You also might find items that help you in your journey,
+                    like potions or magic scrolls.</p>
+
+            </div>
+
+            <div class="col-md-4">
+                <h2>Basic Rules</h2>
+                <p>Each character has different strengths and weaknesses.
+                    Players work together to reach the end. Each player has health points that they
+                    might lose if they cannot avoid a trap and other players
+                    can help them regain those points.
+                </p>
+                <p class="center">
+                <a class="btn" href="https://www.thegamecrafter.com/games/magic-pyramid">
+                    <img src="images/mp-shopad.png" alt="More Info" class="card">
+                </a>
+                </p>
+                <p class="center">
+                    <a href="https://www.thegamecrafter.com/games/magic-pyramid">More Info</a></p>
+            </div>
+
+            <ul class="col-md-4 list">
+                <h2>Details</h2>
+                <li>2-4 Players</li>
+                <li>Less than 30 minutes typical.</li>
+                <li>Ages: 7+</li>
+                <li>Blank cards are included to customize game play.</li>
+                <li>Play on easy, moderate, hard, or super hard modes!</li>
+                <li>Also includes "Magic Pyramid: Dungeon," a competitive bluffing and strategy card game.</li>
+            </ul>
+
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+
+            </div>
+            <div class="col-md-4 center">
+                Examples of "Treasure or Trap" cards:
+
+                <img id="card" class="card" src="images/_mp-chance-card1.png" width="200">
+                <br>
+                <script>var count=0</script>
+                <input class="btn btn-large" type="button" value="Next Card"
+                    onclick="count=(count+1)%4; $('#card').prop('src', 'images/_mp-chance-card'+(count+1)+'.png');">
+            </div>
+            <div class="col-md-4">
+                <p class="center">
+                    <iframe style="border:none;background:transparent;margin:0;padding:0;width:440px;height:283px;" src="https://www.tgcwidgets.com/widget.html#id=DAD2382C-FEB5-11E7-ACB5-CDB8AB9A6AA3&size=medium&hidetitle=yes&buttons=two"></iframe>
+                </p>
+            </div>
+
+        </div>
+    
+    </div>
+
+    <div class="footer">
+        <div class="col-md-9"></div>
+        <div class="col-md-3">
+            <ul class="list-unstyled">
+                <li><a class="glyphicon glyphicon-star" href="/about.html">About Us</a></li>
+                <li><a class="glyphicon glyphicon-envelope" href="mailto:info@crystalrudiments.com">Contact Us</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+</body></html>

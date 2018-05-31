@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Mission to Mars: Card Edition | Crystal Rudiments</title>
+    <link rel="shortcut icon" href="/images/small-favicon.png" type="image/png">
+    <link rel="icon" href="/images/small-favicon.png" type="image/png">
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap-theme.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Playfair+Display" rel="stylesheet">
+    <script type="text/javascript" src="./js/jquery-1.11.0.js"></script>
+    <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+    <style type="text/css">
+    .center { text-align: center; }
+    .footer { padding: 2em; background: #eee; border-radius: 1em; height: 20em; overflow: hidden; }
+    body {background: black; }
+    h1,h2 {font-family: 'Open Sans', sans-serif; }
+    .mtm { color: #d6dcb7; font-size: 20px; font-family: 'Playfair Display', serif; }
+    input[type=button] { color: black; margin: 2em; }
+    img.card { box-shadow: 0 0 10px white; border-radius: 1em; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">CR</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class=""><a href="/">Home</a></li>
+                    <li class=""><a href="/about.html">About</a></li>
+                    <li class=""><a href="/index.html#games">Games</a></li>
+                    <li class=""><a href="/blog.html">Our Blog</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    <h1 class="center"><img src="images/backgrnd3.png" alt="Mission to Mars: Card Edition"></h1>
+
+    <div class="container mtm">
+        
+        <div class="row">
+
+            <div class="col-md-4">
+            A game about exploring the red planet and science.
+                Be the first to explore Mars and gain the most scientific data playing as one of
+                four teams: <i>USA, ESA, China</i>, or <i>Final Frontier</i> (a private space company) using drones,
+                mining, solar panels, and many other elements.
+            </div>
+            <div class="col-md-4">
+                The object of the game is to get the most Science. Players keep track of <i>E-credit</i> (Ⓔ) using
+                paper money, scientists and engineers using game pieces, and <i>Science</i> (S)
+                points using physical tokens, all included. Cards become available and can
+                be activated as the game progresses. <i>Chance</i> cards add an element of luck
+                and fun to the game.
+            </div>
+            <div class="col-md-4">
+                This <i>Card Edition</i> saves space by using five jumbo-sized cards to replace the game board,
+                but otherwise is basically the same as the full version.
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-4">
+                Expand game play by creating your own cards with included blank cards, decreasing starting credits,
+                and adding several other rule enhances to the game.
+            </div>
+
+            <div class="col-md-4 center">
+                <iframe style="border:none;background:transparent;margin:0;padding:0;width:188px;height:226px;" src="https://www.tgcwidgets.com/widget.html#id=F4FD2A86-F7A3-11E7-B913-C290408FC518&size=tiny&darktheme=yes&buttons=two"></iframe>
+
+                <p><a class="btn" href="https://www.thegamecrafter.com/games/mission-to-mars:-card-edition">Purchase on the Game Crafter »</a></p>
+            </div>
+
+            <ul class="col-md-4 list">
+                <li>1-4 Players</li>
+                <li>30 minutes-1 hour typical gameplay</li>
+                <li>7 years or older suggested</li>
+            </ul>
+
+        </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+
+            <div class="col-md-6 center">
+                <p>Try out the Chance cards included in the game:</p>
+                <img id="card" class="card" src="images/half-chance-back.png"><br>
+                <script>
+                    function setCard(image) {
+                        var card = $('#card');
+                        setTimeout(new function() { card.attr('src', "images/"+image); card.fadeIn() }, 1000);
+                    }
+                    function randomCard() {
+                        var card = $('#card');
+                        card.fadeOut();
+                        $.ajax({ url: "/chance/mtm", processData: false }).done(setCard).fail(err);
+                    }
+                    function err() { alert("Error"); }
+                </script>
+                <input class="btn btn-large" type="button" value="Random Chance Card" onclick="randomCard()">
+            </div>
+
+            <div class="col-md-3">
+            </div>
+        </div>
+    
+    </div>
+
+    <div class="footer">
+        <div class="col-md-9"></div>
+        <div class="col-md-3">
+            <ul class="list-unstyled">
+                <li><a class="glyphicon glyphicon-star" href="/about.html">About Us</a></li>
+                <li><a class="glyphicon glyphicon-envelope" href="mailto:info@crystalrudiments.com">Contact Us</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+
+</body></html>
