@@ -95,18 +95,20 @@
                 <p>Try out the Chance cards included in the game:</p>
                 <img id="card" class="card" src="images/half-chance-back.png"><br>
                 <script>
-                    function setCard(image) {
-                        var card = $('#card');
-                        setTimeout(new function() { card.attr('src', "images/"+image); card.fadeIn() }, 1000);
+                    var count=0;
+                    function setCard() {
+                        $('#card').prop('src', 'images/half-chance-mini-card'+(count+1)+'.png');
                     }
-                    function randomCard() {
+                    function nextCard() {
+                        count=(count+1) % 17;
+                        if (count == 1 || count == 6) count++;
                         var card = $('#card');
-                        card.fadeOut();
-                        $.ajax({ url: "/chance/mtm", processData: false }).done(setCard).fail(err);
+                        card.hide();
+                        setCard();
+                        card.show();
                     }
-                    function err() { alert("Error"); }
                 </script>
-                <input class="btn btn-large" type="button" value="Random Chance Card" onclick="randomCard()">
+                <input class="btn btn-large" type="button" value="Next Chance Card" onclick="nextCard()">
             </div>
 
             <div class="col-md-3">
