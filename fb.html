@@ -14,6 +14,13 @@
     h1,h2 {font-family: 'Open Sans', sans-serif; }
     .fb { font-size: 20px; font-family: 'Playfair Display', serif; }
     body { background: #aad6aa; }
+    #tent { padding: 2em; cursor: pointer; }
+    #game { background: white }
+        canvas.center {
+            position: relative;
+            left: 50%;
+            margin-left: -300px;
+        }
     </style>
     
 </head>
@@ -80,6 +87,95 @@
                 <li>Less than 30 minutes typical gameplay</li>
                 <li>Ages 3+</li>
             </ul>
+        </div>
+        <div class="row">
+            <p class="col-md-4">Click on the tent to play a silly game!
+                    It's not like Fair and Beyond at all but it's fun.</p>
+            <img class="col-md-4" id="tent" src="images/tent.jpg">
+            <p class="col-md-4"></p>
+        </div>
+        <div class="row">
+            <canvas class="game center" width="600px" height="400px" id="game" style="display:none"></canvas>
+
+            <script>
+                var ctx = document.getElementById('game').getContext('2d');
+                var balloon = new Image();
+                balloon.src = 'images/balloon.png';
+                var pop = new Image();
+                pop.src = 'images/popped.png';
+                var tent = new Image();
+                tent.src = 'images/tent.jpg';
+
+                function Balloon(i) {
+                    this.x = (i - (13* Math.floor(i/13))) * 46;
+                    this.y = Math.floor(i/13) * 65;
+                    this.popped = 0;
+                    this.show = true;
+                }
+                function Dart() {
+                    this.x = 290;
+                    this.y = 350;
+                    this.dx = 0;
+                    this.dy = 0;
+                }
+                var Game = {
+                    points: 0,
+                    started: false,
+                    balloons: [],
+                    dart: new Dart(),
+                    setup: function() {
+                        var array = []
+                        for (var i = 0; i < 39; i++) { array.push(i) }
+                        array.forEach(function(i) { Game.balloons.push(new Balloon(i)) });
+                        setInterval(Game.draw, 200);
+                    },
+                    draw: function () {
+                        if (!Game.started) return;
+                        Game.balloons.forEach(function(b) {
+                            if (b.show) ctx.drawImage(b.popped ? pop : balloon, b.x, b.y, 40, 58);
+                            else {
+                                ctx.fillStyle = '#ffffff';
+                                ctx.fillRect(b.x, b.y, 40, 58);
+                            }
+                            if (b.popped) b.popped -= 1;
+                            if (b.popped===1) b.show = false;
+                            ctx.fillStyle = '#ffffff';
+                            ctx.fillRect(260, 330, 100, 30);
+                            ctx.fillStyle = '#333133';
+                            ctx.font = '20px Arial,sans-serif'
+                            ctx.fillText("Points: " + Game.points, 260, 350, 100);
+                        });
+                    },
+                    click: function(e) {
+                        let offset = jQuery('#game').offset();
+                        let x = e.pageX - offset.left;
+                        let y = e.pageY - offset.top;
+                        console.log("x=" + x + " y=" + y);
+                        Game.balloons.forEach(function(b) {
+                            if (x > b.x && x < b.x + 40 &&
+                                y > b.y && y < b.y + 50) {
+                                b.popped = 10;
+                                Game.points += 10;
+                            }
+                        });
+                    },
+                    mouseMove: function (e) {
+                        //TODO animate dart throw
+                    }
+                }
+
+                tent.onload = function() {
+                    //ctx.drawImage(tent, 0, 0, 300, 200);
+                    Game.setup();
+                }
+                jQuery('#tent').click(function() {
+                    Game.started = true;
+                    let gameCvs = jQuery('#game');
+                    gameCvs.show();
+                    gameCvs.click(Game.click);
+                    gameCvs.mousemove(Game.mouseMove);
+                })
+            </script>
 
         </div>
 
