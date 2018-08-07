@@ -115,22 +115,62 @@
                 function Dart() {
                     this.x = 290;
                     this.y = 350;
+                    this.z = 200;
                     this.dx = 0;
                     this.dy = 0;
+                    this.dz = 0;
+                    this.thrown = false;
+                }
+                var Mouse = {
+                    x: 290, y: 300
                 }
                 var Game = {
+                    darts: 20,
                     points: 0,
                     started: false,
                     balloons: [],
                     dart: new Dart(),
+                    highscore: 0,
                     setup: function() {
                         var array = []
                         for (var i = 0; i < 39; i++) { array.push(i) }
                         array.forEach(function(i) { Game.balloons.push(new Balloon(i)) });
-                        setInterval(Game.draw, 200);
+                        setInterval(Game.draw, 60);
+                        setInterval(Game.animate, 57);
+                        Game.highscore = Game.updateHighscore();
+                        jQuery("#tent").parent().append("High-score: " + Game.highscore);
+                    },
+                    animate: function () {
+                        var dart = Game.dart;
+                        if (dart.thrown) {
+                            dart.x += dart.dx;
+                            dart.y += dart.dy;
+                            dart.z += dart.dz;
+                        }
+                        if (dart.z <= 0 && dart.thrown) {
+                            Game.impact(dart);
+                        }
+                    },
+                    updateHighscore: function() {
+                        var highscore = localStorage.getItem("highscore") || '0';
+                        var h = parseInt(highscore);
+                        if (h > Game.highscore) Game.highscore = h;
+                        return Game.highscore;
+                    },
+                    getText: function() {
+                        if (Game.darts > 0) {
+                            return "Points: " + Game.points + " Darts: " + Game.darts;
+                        } else {
+                            return "Game Over! Points: " + Game.points + " Highscore: " + Game.highscore +
+                                " Click to play again!";
+                        }
                     },
                     draw: function () {
                         if (!Game.started) return;
+
+                        ctx.fillStyle = '#ffffff';
+                        ctx.fillRect(0, 0, 600, 600);
+
                         Game.balloons.forEach(function(b) {
                             if (b.show) ctx.drawImage(b.popped ? pop : balloon, b.x, b.y, 40, 58);
                             else {
@@ -139,17 +179,39 @@
                             }
                             if (b.popped) b.popped -= 1;
                             if (b.popped===1) b.show = false;
-                            ctx.fillStyle = '#ffffff';
-                            ctx.fillRect(260, 330, 100, 30);
                             ctx.fillStyle = '#333133';
-                            ctx.font = '20px Arial,sans-serif'
-                            ctx.fillText("Points: " + Game.points, 260, 350, 100);
+                            ctx.font = '20px Arial,sans-serif';
+                            ctx.textAlign = "center";
+                            var text = Game.getText();
+                            ctx.fillText(text, 280, 350);
+                            var dart = Game.dart;
+                            if (Mouse.y > 200) {
+                                if (Game.darts > 0) Game.drawLines(ctx, Mouse);
+                                //ctx.fillText("⇫", Mouse.x, Mouse.y);
+                            }
+                            if (Game.dart.thrown) {
+                                ctx.save();
+                                ctx.translate(dart.x, dart.y);
+                                ctx.rotate(Math.PI * dart.dx / 52);
+                                ctx.textAlign = "center";
+                                ctx.font = (8 + (dart.z / 6)) + 'px Arial,sans-serif';
+                                ctx.fillText("⇫", 0, 0);
+                                ctx.restore();
+                            }
                         });
                     },
-                    click: function(e) {
-                        let offset = jQuery('#game').offset();
-                        let x = e.pageX - offset.left;
-                        let y = e.pageY - offset.top;
+                    drawLines: function(ctx, Mouse) {
+                        ctx.beginPath();
+                        ctx.lineTo(0, 200);
+                        ctx.lineTo(Mouse.x, Mouse.y);
+                        ctx.lineTo(600, 200);
+                        ctx.closePath();
+                        ctx.stroke();
+                    },
+                    impact: function(dart) {
+                        dart.thrown = false;
+                        Game.darts -= 1;
+                        var x = dart.x, y = dart.y;
                         console.log("x=" + x + " y=" + y);
                         Game.balloons.forEach(function(b) {
                             if (x > b.x && x < b.x + 40 &&
@@ -158,9 +220,46 @@
                                 Game.points += 10;
                             }
                         });
+                        if (Game.darts == 0) {
+                            Game.gameOver();
+                        }
+                    },
+                    gameOver: function() {
+                        alert("Game over! You got " + Game.points + " points!!");
+                        if (Game.points > Game.highscore) {
+                            localStorage.setItem("highscore", "" + Game.points);
+                            Game.updateHighscore();
+                            alert("New High Score!");
+                        }
+                    },
+                    startOver: function() {
+                        Game.darts = 20;
+                        Game.points = 0;
+                        Game.balloons.forEach(function(b) { b.popped = 0; b.show = true; });
+                    },
+                    click: function(e) {
+                        var dart = Game.dart;
+                        if (Game.darts > 0 && !dart.thrown) {
+                            var offset = jQuery('#game').offset();
+                            var x = e.pageX - offset.left;
+                            var y = e.pageY - offset.top;
+                            dart.thrown = true;
+                            dart.x = x;
+                            dart.y = y;
+                            dart.z = 200;
+                            dart.dx = (300 - x) / 10;
+                            dart.dy = (200 - y) / 10;
+                            dart.dz = -0.2*Math.sqrt(Math.abs(50*50 - dart.dx*dart.dx - dart.dy*dart.dy));
+                        } else if (Game.darts === 0) {
+                            Game.startOver();
+                        }
                     },
                     mouseMove: function (e) {
-                        //TODO animate dart throw
+                        var offset = jQuery('#game').offset();
+                        var x = e.pageX - offset.left;
+                        var y = e.pageY - offset.top;
+                        Mouse.x = x;
+                        Mouse.y = y;
                     }
                 }
 
@@ -170,10 +269,11 @@
                 }
                 jQuery('#tent').click(function() {
                     Game.started = true;
-                    let gameCvs = jQuery('#game');
+                    var gameCvs = jQuery('#game');
                     gameCvs.show();
                     gameCvs.click(Game.click);
                     gameCvs.mousemove(Game.mouseMove);
+                    jQuery('#tent').hide();
                 })
             </script>
 
